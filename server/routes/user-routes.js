@@ -7,7 +7,7 @@ router.get('/', (req, res) => {
     Person.findAll().then(persons => res.send(persons))
 })
 
-router.post('/registration', userController.registration)
+router.post('/register', userController.registration)
 
 router.post('/login', userController.login)
 

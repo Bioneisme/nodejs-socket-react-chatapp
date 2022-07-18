@@ -5,21 +5,23 @@ const {hash, compare} = require('bcrypt')
 class UserController {
     async registration(req, res, next) {
         try {
-            const {name, surname, email, password} = req.body
+            const {nickname, email, password, repeat_password} = req.body
+            if (password !== repeat_password)
+                return res.status(400).send({'message': 'Passwords don\'t match'})
+
             const hashPassword = await hash(password, 4)
 
             Person.create({
-                name,
-                surname,
+                nickname,
                 email,
                 password: hashPassword
             }).then(person => {
                 req.session.user = new UserDto(person)
                 res.send(person)
             }).catch(e => {
+                const error = e.parent.constraint ? e.parent.constraint : e.name
                 res.status(400).send({
-                    'message': e.name,
-                    'constraint': e.parent.constraint
+                    'message': error
                 })
             })
         } catch (e) {
@@ -33,7 +35,7 @@ class UserController {
             const person = await Person.findOne({where: {email: email}})
 
             if (!person)
-                return res.status(400).send({'message': 'User with this email doesnt exists'})
+                return res.status(400).send({'message': 'User with this email doesn\'t exists'})
 
             const isPassEquals = await compare(password, person.password)
             if (!isPassEquals)
