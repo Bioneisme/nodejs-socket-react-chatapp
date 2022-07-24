@@ -4,12 +4,13 @@ const cookieParser = require('cookie-parser')
 const cors = require('cors')
 const RedisStore = require('connect-redis')(session);
 const userRoutes = require('./routes/user-routes')
+const chatRoutes = require('./routes/chat-routes')
 const db = require('./config/database');
+const app = express()
 
 require('dotenv').config()
 
 const PORT = process.env.PORT || 5000
-const app = express()
 
 const redisOptions = {
     host: process.env.REDIS_HOST,
@@ -45,5 +46,6 @@ const start = async () => {
 }
 
 app.use('/api', userRoutes)
+app.use('/api', chatRoutes)
 
 start().then()
