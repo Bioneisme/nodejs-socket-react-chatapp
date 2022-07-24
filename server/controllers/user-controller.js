@@ -7,7 +7,7 @@ class UserController {
         try {
             const {nickname, email, password, repeat_password} = req.body
             if (password !== repeat_password)
-                return res.status(400).send({'message': 'Passwords don\'t match'})
+                return res.status(400).send({message: 'Passwords don\'t match'})
 
             const hashPassword = await hash(password, 4)
 
@@ -35,11 +35,11 @@ class UserController {
             const person = await Person.findOne({where: {email: email}})
 
             if (!person)
-                return res.status(400).send({'message': 'User with this email doesn\'t exists'})
+                return res.status(400).send({message: 'User with this email doesn\'t exists'})
 
             const isPassEquals = await compare(password, person.password)
             if (!isPassEquals)
-                return res.status(400).send({'message': 'Incorrect email or password'})
+                return res.status(400).send({message: 'Incorrect email or password'})
 
             req.session.user = new UserDto(person)
             res.send(person)
@@ -48,14 +48,46 @@ class UserController {
         }
     }
 
+    async updateUser(req, res, next) {
+        try {
+            const {id, nickname} = req.body
+            Person.update({nickname: nickname}, {where: {id: id}}).then(async _ => {
+                const person = await Person.findOne({where: {id: id}})
+                req.session.user = new UserDto(person)
+                res.send({message: 'Successfully updated', 'user': person})
+            }).catch(e => {
+                console.log(e.name)
+                res.status(400).send({message: e.name})
+            })
+        } catch (e) {
+            next(e)
+        }
+    }
+
+    async uploadImage(req, res, next) {
+        try {
+            const ID = req.session.user.id
+            Person.update({image: req.file.path}, {where: {id: ID}}).then(async _ => {
+                const person = await Person.findOne({where: {id: ID}})
+                req.session.user = new UserDto(person)
+
+                res.send({message: 'Successfully updated', 'user': person})
+            }).catch(e => {
+                res.send({message: e.name})
+            })
+        } catch (e) {
+            next(e)
+        }
+    }
+
     getUser(req, res) {
-        if (!req.session.user) res.status(404).send({'message': 'You must be logged in'})
+        if (!req.session.user) res.status(404).send({message: 'You must be logged in'})
         res.send(req.session.user)
     }
 
     logout(req, res) {
         req.session.destroy()
-        res.send({'message': 'Logout'})
+        res.send({message: 'Logout'})
     }
 }
 
