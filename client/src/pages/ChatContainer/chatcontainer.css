@@ -1,0 +1,32 @@
+.message-container {
+    width: 74vw;
+}
+
+.chat-box {
+    height: 86vh;
+    width: 29vw;
+    overflow: auto;
+}
+
+.chat-box::-webkit-scrollbar {
+    width: 1px;
+}
+
+.send-message {
+    width: 40%;
+}
+
+.send-icon {
+    position: fixed;
+    margin: -30px 27%;
+}
+
+.name {
+    font-size: 14px;
+}
+
+@media only screen and (max-width: 600px) {
+    .send-icon {
+        margin: -27px 29%;
+    }
+}

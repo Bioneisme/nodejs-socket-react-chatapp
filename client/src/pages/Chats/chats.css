@@ -1,0 +1,31 @@
+.chats-container {
+    display: grid;
+    grid-template-columns: 7% auto auto auto;
+}
+
+.left-box {
+    height: 100vh;
+    background-color: #505050;
+    overflow: auto;
+}
+
+.left-box::-webkit-scrollbar {
+    width: 1px;
+}
+
+.contacts-image {
+    width: 75px;
+    height: 75px;
+    cursor: pointer;
+}
+
+@media only screen and (max-width: 600px) {
+    .chats-container {
+        grid-template-columns: 10% auto auto auto;
+    }
+
+    .contacts-image {
+        width: 25px;
+        height: 25px;
+    }
+}
