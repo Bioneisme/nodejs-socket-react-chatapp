@@ -12,11 +12,12 @@ import "font-awesome/css/font-awesome.css";
 
 import {PrivateRoute} from './routes'
 
-import Layout from "./pages/Layout";
+import SideBar from "./components/SideBar";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
 import Home from "./pages/Home";
-import Profile from "./pages/Profile"
+import Chats from "./pages/Chats";
+import Settings from "./pages/Settings"
 
 const persist = persistStore(store);
 
@@ -24,10 +25,9 @@ export default function App() {
     return (
         <BrowserRouter>
             <Routes>
-                <Route path="/" element={<Layout/>}>
-                    <Route index element={<Home/>}/>
-                    <Route path='/profile' element={<PrivateRoute><Profile/></PrivateRoute>}/>
-                </Route>
+                <Route index element={<SideBar> <Home/> </SideBar>}/>
+                <Route path='/settings' element={<SideBar> <PrivateRoute> <Settings/> </PrivateRoute> </SideBar>}/>
+                <Route path='/chats' element={<SideBar> <PrivateRoute> <Chats/> </PrivateRoute> </SideBar>}/>
                 <Route path='/registration' element={<SignUp/>}/>
                 <Route path='/login' element={<Login/>}/>
             </Routes>

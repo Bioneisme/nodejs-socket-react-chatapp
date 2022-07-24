@@ -1,0 +1,9 @@
+.settingsForm {
+    justify-content: center;
+    display: flex;
+}
+
+.settingsForm label {
+    justify-content: start;
+    display: flex;
+}

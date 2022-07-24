@@ -1,4 +1,7 @@
 import React from "react";
+import {logoutUser, clearState} from '../../store/slices/userSlice';
+import {useDispatch} from "react-redux";
+
 import {
     CDBSidebar,
     CDBSidebarContent,
@@ -7,51 +10,52 @@ import {
     CDBSidebarMenu,
     CDBSidebarMenuItem,
 } from 'cdbreact';
-import { NavLink } from 'react-router-dom';
-import "./navbar.css"
+import {NavLink} from 'react-router-dom';
 
+import ProfileCard from "../ProfileCard";
 
-const Index = () => {
+import "./sidebar.css"
+
+const Index = ({children}) => {
+    const dispatch = useDispatch();
+    const logout = () => {
+        dispatch(logoutUser());
+        dispatch(clearState())
+    };
+
     return (
-        <div style={{ display: 'flex', height: '100vh', overflow: 'scroll initial' }}>
+        <div className="side-container">
             <CDBSidebar textColor="#fff" backgroundColor="#333">
-                <CDBSidebarHeader prefix={<i className="fa fa-bars fa-large" />}>
-                    <a href="/" className="text-decoration-none" style={{ color: 'inherit' }}>
-                        Sidebar
-                    </a>
+                <CDBSidebarHeader prefix={<i className="fa fa-bars fa-large"/>}>
+                    <ProfileCard/>
                 </CDBSidebarHeader>
 
                 <CDBSidebarContent className="sidebar-content">
                     <CDBSidebarMenu>
-                        <NavLink exact to="/" activeClassName="activeClicked">
+                        <NavLink exact to="/">
                             <CDBSidebarMenuItem icon="columns">Dashboard</CDBSidebarMenuItem>
                         </NavLink>
-                        <NavLink exact to="/tables" activeClassName="activeClicked">
-                            <CDBSidebarMenuItem icon="table">Tables</CDBSidebarMenuItem>
+                        <NavLink exact to="/chats">
+                            <CDBSidebarMenuItem icon="comments">Chats</CDBSidebarMenuItem>
                         </NavLink>
-                        <NavLink exact to="/profile" activeClassName="activeClicked">
-                            <CDBSidebarMenuItem icon="user">Profile page</CDBSidebarMenuItem>
+                        <NavLink exact to="/settings">
+                            <CDBSidebarMenuItem icon="cog">Settings</CDBSidebarMenuItem>
                         </NavLink>
-                        <NavLink exact to="/analytics" activeClassName="activeClicked">
-                            <CDBSidebarMenuItem icon="chart-line">Analytics</CDBSidebarMenuItem>
-                        </NavLink>
-
-                        <NavLink exact to="/hero404" target="_blank" activeClassName="activeClicked">
-                            <CDBSidebarMenuItem icon="exclamation-circle">404 page</CDBSidebarMenuItem>
-                        </NavLink>
+                        <div className="text-danger" onClick={logout}>
+                            <CDBSidebarMenuItem icon="sign-out-alt">Logout</CDBSidebarMenuItem>
+                        </div>
                     </CDBSidebarMenu>
                 </CDBSidebarContent>
 
-                <CDBSidebarFooter style={{ textAlign: 'center' }}>
-                    <div
-                        style={{
-                            padding: '20px 5px',
-                        }}
-                    >
-                        Sidebar Footer
+                <CDBSidebarFooter style={{textAlign: 'center'}}>
+                    <div style={{padding: '20px 5px'}}>
+                        <a href="https://github.com/Bioneisme" style={{textDecoration: "none", color: 'white'}}
+                           target="_blank">
+                            Bioneisme </a>
                     </div>
                 </CDBSidebarFooter>
             </CDBSidebar>
+            {children}
         </div>
     );
 };

@@ -28,7 +28,7 @@ function Login() {
 
         if (isSuccess) {
             dispatch(clearState())
-            window.location.href = "/profile"
+            window.location.href = "/"
         }
     }, [isError, isSuccess]);
 
