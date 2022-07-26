@@ -11,7 +11,6 @@ const Card = () => {
         if (currentUser) {
             setUser(currentUser);
         }
-        dispatch(getUser())
     }, [currentUser]);
 
     if (!user) return (

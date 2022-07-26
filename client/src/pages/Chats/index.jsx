@@ -14,6 +14,7 @@ function Chats() {
     const [currentChat, setCurrentChat] = useState(null);
     const [list, setList] = useState([])
 
+
     useEffect(() => {
         async function fetchData() {
             try {
@@ -41,7 +42,6 @@ function Chats() {
                     <ChatContainer currentChat={currentChat} currentUser={currentUser}/>
                 </div>
             </div>
-
         </div>
     );
 }
