@@ -8,12 +8,14 @@ import API from "../../api";
 function ChatContainer({currentChat, currentUser}) {
     const [messages, setMessages] = useState([])
     const [newMessage, setNewMessage] = useState("")
+    const [image, setImage] = useState("")
     const [arrivalMessage, setArrivalMessage] = useState(null)
     const socket = useRef(io())
     const scrollRef = useRef()
+    const recId = currentChat?.users.find(m => m != currentUser.id)
 
     useEffect(() => {
-        socket.current = io("ws://localhost:8900")
+        socket.current = io(process.env.REACT_APP_SOCKET_URL)
         socket.current.on("getMessage", data => {
             setArrivalMessage({
                 senderId: data.senderId,
@@ -33,6 +35,9 @@ function ChatContainer({currentChat, currentUser}) {
             try {
                 const response = await API.get('/getMessages/' + currentChat?.id)
                 setMessages(response.data)
+
+                const res = await API.get('/getUserById/' + recId)
+                setImage(res.data.image)
             } catch (e) {
                 console.log(e)
             }
@@ -84,7 +89,8 @@ function ChatContainer({currentChat, currentUser}) {
                             <fieldset className="chat-box">
                                 {messages.map((m => (
                                     <div ref={scrollRef}>
-                                        <Message message={m} own={m.senderId == currentUser.id}/>
+                                        <Message message={m} own={m.senderId == currentUser.id}
+                                                 ownImage={currentUser.image} image={image}/>
                                     </div>
                                 )))
                                 }

@@ -1,7 +1,8 @@
+import React from "react";
 import "./message.css";
 import moment from "moment"
 
-export default function Message({ message, own }) {
+export default function Message({ message, own, image, ownImage }) {
     const timeAgo = moment(message.createdAt).fromNow()
 
     return (
@@ -9,7 +10,7 @@ export default function Message({ message, own }) {
             <div className="messageTop">
                 <img
                     className="messageImg"
-                    src="https://images.pexels.com/photos/3686769/pexels-photo-3686769.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
+                    src={own? ownImage : image}
                     alt=""
                 />
                 <p className="messageText my-2">{message.text}</p>
