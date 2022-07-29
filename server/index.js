@@ -3,6 +3,7 @@ const session = require('express-session')
 const cookieParser = require('cookie-parser')
 const cors = require('cors')
 const RedisStore = require('connect-redis')(session);
+const {isAuth} = require('./middlewares/auth-middleware')
 const userRoutes = require('./routes/user-routes')
 const chatRoutes = require('./routes/chat-routes')
 const db = require('./config/database');
@@ -46,6 +47,6 @@ const start = async () => {
 }
 
 app.use('/api', userRoutes)
-app.use('/api', chatRoutes)
+app.use('/api', isAuth, chatRoutes)
 
 start().then()
