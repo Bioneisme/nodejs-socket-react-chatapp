@@ -36,8 +36,10 @@ function ChatContainer({currentChat, currentUser}) {
                 const response = await API.get('/getMessages/' + currentChat?.id)
                 setMessages(response.data)
 
-                const res = await API.get('/getUserById/' + recId)
-                setImage(res.data.image)
+                if (currentChat) {
+                    const res = await API.get('/getUserById/' + recId)
+                    setImage(res.data.image)
+                }
             } catch (e) {
                 console.log(e)
             }
@@ -88,7 +90,7 @@ function ChatContainer({currentChat, currentUser}) {
                         currentChat ? <>
                             <fieldset className="chat-box">
                                 {messages.map((m => (
-                                    <div ref={scrollRef}>
+                                    <div ref={scrollRef} key={m.id}>
                                         <Message message={m} own={m.senderId == currentUser.id}
                                                  ownImage={currentUser.image} image={image}/>
                                     </div>
@@ -97,6 +99,7 @@ function ChatContainer({currentChat, currentUser}) {
                             </fieldset>
                             <textarea placeholder="Send a message"
                                       className="send-message"
+                                      name="newMessage"
                                       onChange={(e) => setNewMessage(e.target.value)}
                                       value={newMessage}
                             />

@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import {userSelector, updateUser, clearState, uploadImage} from "../../store/slices/userSlice";
+import {userSelector, updateUser, clearState, uploadImage, getUser} from "../../store/slices/userSlice";
 import {useForm} from "react-hook-form";
 
 import "./settings.css"
@@ -47,7 +47,9 @@ function Profile() {
             setSuccess('Successfully updated!')
             dispatch(clearState())
         }
-    }, [isError, isSuccess])
+
+    }, [currentUser])
+
 
     return (
         <div className="container">
@@ -77,18 +79,21 @@ function Profile() {
                                 <label>User ID</label>
                                 <input className="form-control"
                                        type="text"
+                                       name="id"
                                        placeholder="165"
                                        {...register("id")}
                                        disabled/>
                                 <label>Email</label>
                                 <input className="form-control"
                                        type="email"
+                                       name="email"
                                        placeholder="example@gmail.com"
                                        {...register("email")}
                                        disabled/>
                                 <label>Nickname</label>
                                 <input className="form-control"
                                        type="text"
+                                       name="nickname"
                                        placeholder="Steve"
                                        {...register("nickname")}
                                        required/>

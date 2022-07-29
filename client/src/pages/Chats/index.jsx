@@ -44,7 +44,7 @@ function Chats() {
                 <div className="left-box">
                     <button className="add-button" onClick={handleSubmit}>+</button>
                     {list.map((c) => (
-                        <div onClick={() => changeChat(c)}>
+                        <div onClick={() => changeChat(c)} key={c.id}>
                             <Conversation conversation={c} currentUser={currentUser}/>
                         </div>
                     ))}

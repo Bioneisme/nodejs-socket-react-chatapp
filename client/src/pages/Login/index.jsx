@@ -58,12 +58,14 @@ function Login() {
 
                             <label>Email Address</label><br/>
                             <input type="email"
+                                   name="email"
                                    placeholder="example@gmail.com"
                                    {...register("email")}
                                    required/>
 
                             <label>Password</label><br/>
                             <input type="password"
+                                   name="password"
                                    placeholder="**********"
                                    {...register("password")}
                                    autoComplete="on"

@@ -1,5 +1,5 @@
-import React from "react";
-import {logoutUser, clearState} from '../../store/slices/userSlice';
+import React, {useEffect} from "react";
+import {logoutUser, getUser, clearState} from '../../store/slices/userSlice';
 import {useDispatch} from "react-redux";
 
 import {
@@ -19,9 +19,13 @@ import "./sidebar.css"
 const Index = ({children}) => {
     const dispatch = useDispatch();
     const logout = () => {
-        dispatch(logoutUser());
+        dispatch(logoutUser())
         dispatch(clearState())
     };
+
+    useEffect(() => {
+        dispatch(getUser())
+    })
 
     return (
         <div className="side-container">
@@ -32,13 +36,13 @@ const Index = ({children}) => {
 
                 <CDBSidebarContent className="sidebar-content">
                     <CDBSidebarMenu>
-                        <NavLink exact to="/">
+                        <NavLink exact to="/" onClick={window.location.reload}>
                             <CDBSidebarMenuItem icon="columns">Dashboard</CDBSidebarMenuItem>
                         </NavLink>
                         <NavLink exact to="/chats">
                             <CDBSidebarMenuItem icon="comments">Chats</CDBSidebarMenuItem>
                         </NavLink>
-                        <NavLink exact to="/settings">
+                        <NavLink exact to="/settings" onClick={window.location.reload}>
                             <CDBSidebarMenuItem icon="cog">Settings</CDBSidebarMenuItem>
                         </NavLink>
                         <div className="text-danger" onClick={logout}>

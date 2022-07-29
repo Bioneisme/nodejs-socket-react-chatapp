@@ -5,7 +5,6 @@ import {userSelector, getUser} from "../../store/slices/userSlice";
 const Card = () => {
     const {currentUser} = useSelector(userSelector)
     const [user, setUser] = useState(null)
-    const dispatch = useDispatch();
 
     useEffect(() => {
         if (currentUser) {

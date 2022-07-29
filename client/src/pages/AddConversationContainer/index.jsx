@@ -24,7 +24,6 @@ function AddConversationContainer({currentUser}) {
             senderId: currentUser.id,
             receiverId: id
         }
-        console.log(post)
         API.post('/createChat', post).then(() => {
             window.location.reload()
         })
@@ -38,7 +37,7 @@ function AddConversationContainer({currentUser}) {
                     <div className="users-box text-start">
                         <div>
                             {list.map((c) => (
-                                <div>
+                                <div className="my-2">
                                     <img
                                         className="user-image"
                                         src={c.image}
@@ -46,7 +45,7 @@ function AddConversationContainer({currentUser}) {
                                     />
                                     <span className="user-name">{c.nickname}</span>
                                     <i style={{cursor: "pointer"}}
-                                       className=" mx-2 fas fa-plus-circle"
+                                       className="mx-2 fas fa-plus-circle"
                                        onClick={() => handleClick(c.id)}
                                     />
                                 </div>

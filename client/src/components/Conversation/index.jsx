@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from "react";
+import {BallTriangle} from 'react-loader-spinner'
 import API from "../../api";
 
 const Conversation = ({conversation, currentUser}) => {
@@ -15,7 +16,10 @@ const Conversation = ({conversation, currentUser}) => {
         }
     }, []);
 
-    if (!user) return "Loading..."
+    if (!user) return <BallTriangle
+        radius="1"
+        color="white"
+    />
 
     return (
         <div className="text-center">

@@ -65,18 +65,21 @@ function SignUp() {
 
                             <label>Nickname</label><br/>
                             <input type="text"
+                                   name="nickname"
                                    placeholder="Steve"
                                    {...register("nickname")}
                                    required/>
 
                             <label>Email Address</label><br/>
                             <input type="email"
+                                   name="email"
                                    placeholder="example@gmail.com"
                                    {...register("email")}
                                    required/>
 
                             <label>Password</label><br/>
                             <input type="password"
+                                   name="password"
                                    placeholder="**********"
                                    {...register("password")}
                                    autoComplete="on"
@@ -84,6 +87,7 @@ function SignUp() {
 
                             <label>Repeat Password</label><br/>
                             <input type="password"
+                                   name="repeat_password"
                                    placeholder="**********"
                                    {...register("repeat_password")}
                                    autoComplete="on"
