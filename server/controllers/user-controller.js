@@ -85,6 +85,19 @@ class UserController {
         res.send(req.session.user)
     }
 
+    getUserById(req, res) {
+        Person.findOne({
+            attributes:
+                {exclude: ['email', 'password', 'createdAt', 'updatedAt']},
+            where:
+                {id: req.params.id}
+        }).then(person => {
+            res.send(person)
+        }).catch(e => {
+            res.status(400).send(e)
+        })
+    }
+
     logout(req, res) {
         req.session.destroy()
         res.send({message: 'Logout'})

@@ -10,4 +10,6 @@ router.post('/createMessage', chatController.createMessage)
 
 router.get('/getMessages/:chatId', chatController.getMessages)
 
+router.get('/getNewConversations', chatController.getNewConversations)
+
 module.exports = router

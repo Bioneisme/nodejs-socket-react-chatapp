@@ -1,5 +1,6 @@
 const express = require('express')
 const router = express.Router()
+const {isAuth} = require('../middlewares/auth-middleware')
 const Person = require('../models/Person')
 const userController = require('../controllers/user-controller')
 const {v2: cloudinary} = require("cloudinary");
@@ -22,25 +23,15 @@ const storage = new CloudinaryStorage({
 const upload = multer({storage: storage});
 
 
-router.get('/getUsers', (req, res) => {
-    Person.findAll().then(persons => res.send(persons))
-})
-
 router.post('/register', userController.registration)
 
 router.post('/login', userController.login)
 
-router.get('/getUser', userController.getUser)
+router.get('/getUser', isAuth, userController.getUser)
 
-router.get('/getUserById/:id', (req, res) => {
-    Person.findByPk(req.params.id).then(person => {
-        res.send(person)
-    }).catch(e => {
-        res.status(400).send(e)
-    })
-})
+router.get('/getUserById/:id', userController.getUserById)
 
-router.post('/updateUser', userController.updateUser)
+router.post('/updateUser', isAuth, userController.updateUser)
 
 router.get('/logout', userController.logout)
 

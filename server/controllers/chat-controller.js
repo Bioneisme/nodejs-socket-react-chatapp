@@ -1,4 +1,5 @@
 const {Op} = require('sequelize')
+const Person = require('../models/Person')
 const Chat = require('../models/Chat')
 const Message = require('../models/Message')
 
@@ -66,6 +67,49 @@ class ChatController {
             }).catch(e => {
                 res.status(400).send({message: e})
             })
+        } catch (e) {
+            next(e)
+        }
+    }
+
+    getNewConversations(req, res, next) {
+        try {
+            let usersId = []
+
+            Chat.findAll({
+                where: {
+                    users: {
+                        [Op.contains]: [req.session.user.id]
+                    }
+                }})
+                .then(chats => {
+                chats.forEach(chat => {
+                    const allUsersId = new Set([
+                        ...usersId,
+                        ...chat.dataValues.users
+                    ]);
+                    usersId = [...allUsersId]
+                })
+
+                Person.findAll({
+                    attributes: {
+                        exclude: ['email', 'password', 'createdAt', 'updatedAt']
+                    },
+                    where: {
+                        id: {
+                            [Op.notIn]: usersId
+                        }
+                    }})
+                    .then(users => {
+                        res.send(users)
+                    })
+                    .catch(e => {
+                        res.status(400).send({message: e})
+                    })
+                })
+                .catch(e => {
+                    res.status(400).send({message: e})
+                })
         } catch (e) {
             next(e)
         }
