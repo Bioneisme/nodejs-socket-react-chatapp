@@ -1,8 +1,11 @@
 const {Server} = require('socket.io')
+require('dotenv').config()
 
-const io = new Server(8900, {
+const PORT = process.env.SOCKET_PORT || 8900
+
+const io = new Server(PORT, {
     cors: {
-        origin: "http://localhost:3000"
+        origin: process.env.CLIENT_URL
     }
 })
 
@@ -10,12 +13,14 @@ let users = {}
 
 const addUser = (userId, socketId) => {
     users[userId] = socketId
+    console.log("user " + userId + " connected")
 }
 
 const removeUser = (socketId) => {
     for (let userId in users) {
         if (users[userId] === socketId) {
             delete users[userId];
+            console.log("user " + userId + " disconnected")
         }
     }
 }
