@@ -36,9 +36,6 @@ const Index = ({children}) => {
 
                 <CDBSidebarContent className="sidebar-content">
                     <CDBSidebarMenu>
-                        <NavLink exact to="/" onClick={window.location.reload}>
-                            <CDBSidebarMenuItem icon="columns">Dashboard</CDBSidebarMenuItem>
-                        </NavLink>
                         <NavLink exact to="/chats">
                             <CDBSidebarMenuItem icon="comments">Chats</CDBSidebarMenuItem>
                         </NavLink>

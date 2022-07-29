@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import {BrowserRouter, Route, Routes} from "react-router-dom"
+import {BrowserRouter, Route, Routes, Navigate} from "react-router-dom"
 import {Toaster} from 'react-hot-toast'
 import store from "./store"
 import {Provider} from "react-redux"
@@ -15,7 +15,6 @@ import {PrivateRoute} from './routes'
 import SideBar from "./components/SideBar";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
-import Home from "./pages/Home";
 import Chats from "./pages/Chats";
 import Settings from "./pages/Settings"
 
@@ -25,7 +24,7 @@ export default function App() {
     return (
         <BrowserRouter>
             <Routes>
-                <Route index element={<SideBar> <Home/> </SideBar>}/>
+                <Route index element={<Navigate to="/chats" replace/>}/>
                 <Route path='/settings' element={<SideBar> <PrivateRoute> <Settings/> </PrivateRoute> </SideBar>}/>
                 <Route path='/chats' element={<SideBar> <PrivateRoute> <Chats/> </PrivateRoute> </SideBar>}/>
                 <Route path='/registration' element={<SignUp/>}/>
