@@ -5,7 +5,7 @@ const Conversation = ({conversation, currentUser}) => {
     const [user, setUser] = useState(null)
 
     useEffect(async () => {
-        const friendId = conversation.users.find(m => m !== currentUser.id)
+        const friendId = conversation.users.find(m => m != currentUser.id)
 
         try {
             const res = await API.get('/getUserById/' + friendId)

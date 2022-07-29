@@ -6,34 +6,29 @@ const io = new Server(8900, {
     }
 })
 
-let users = []
+let users = {}
 
 const addUser = (userId, socketId) => {
-    !users.some((user) => user.userId === userId) &&
-    users.push({userId, socketId})
+    users[userId] = socketId
 }
 
 const removeUser = (socketId) => {
-    users = users.filter((user) => user.socketId !== socketId)
-}
-
-const getUser = (userId) => {
-    console.log(users)
-    return users.find((user) => user.userId === userId)
+    for (let userId in users) {
+        if (users[userId] === socketId) {
+            delete users[userId];
+        }
+    }
 }
 
 io.on("connection", (socket => {
-    console.log("user connected")
     socket.on("addUser", userId => {
         addUser(userId, socket.id)
-        io.emit("getUsers", users)
     })
 
     socket.on("sendMessage", ({senderId, receiverId, text}) => {
-            const user = users.find((user) => user.userId === receiverId)
-            console.log(user)
+            const user = users[receiverId]
             try {
-                io.to(user.socketId).emit("getMessage", {
+                io.to(user).emit("getMessage", {
                     senderId, text
                 })
             } catch (e) {
@@ -43,8 +38,6 @@ io.on("connection", (socket => {
     )
 
     socket.on("disconnect", () => {
-        console.log("user disconnected")
         removeUser(socket.id)
-        io.emit("getUsers", users)
     })
 }))

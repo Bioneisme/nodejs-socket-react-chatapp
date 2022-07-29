@@ -23,8 +23,9 @@ function ChatContainer({currentChat, currentUser}) {
     }, [])
 
     useEffect(() => {
-        arrivalMessage && currentChat?.users.includes(arrivalMessage.senderId) &&
-        setMessages((prev) => [...prev, arrivalMessage])
+        if (arrivalMessage && currentChat?.users.includes(arrivalMessage.senderId.toString())) {
+            setMessages((prev) => [...prev, arrivalMessage])
+        }
     }, [arrivalMessage, currentChat])
 
     useEffect(() => {
@@ -46,9 +47,6 @@ function ChatContainer({currentChat, currentUser}) {
 
     useEffect(() => {
         socket.current.emit("addUser", currentUser.id)
-        socket.current.on("getUsers", users => {
-            console.log(users)
-        })
     }, [currentUser])
 
     const handleSubmit = async (e) => {
@@ -59,7 +57,7 @@ function ChatContainer({currentChat, currentUser}) {
             text: newMessage
         }
 
-        const receiverId = currentChat.users.find(member => member !== currentUser.id)
+        const receiverId = currentChat.users.find(member => member != currentUser.id)
 
         socket.current.emit("sendMessage", {
             senderId: currentUser.id,
