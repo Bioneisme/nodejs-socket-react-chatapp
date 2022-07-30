@@ -1,0 +1,66 @@
+version: "3.8"
+
+services:
+  postgres:
+    image: postgres:11.5
+    restart: always
+    build:
+      context: postgres-docker
+      dockerfile: db.Dockerfile
+    environment:
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_DB=chatter_dev
+    ports:
+      - "5432:5432"
+    networks:
+      - shared-network
+    volumes:
+      - ./postgres-db:/var/lib/postgresql/data
+
+  server:
+    container_name: chatter_server
+    restart: unless-stopped
+    image: chatter-server-prod:1.0.0
+    build:
+      context: server
+      target: production
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    networks:
+      - shared-network
+    depends_on:
+      - postgres
+
+  client:
+    container_name: chatter_client
+    restart: unless-stopped
+    image: chatter-client-prod:1.0.0
+    build:
+      context: client
+      target: production
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    networks:
+      - shared-network
+    depends_on:
+      - server
+
+  socket:
+    container_name: chatter_socket
+    restart: unless-stopped
+    image: chatter-socket-prod:1.0.0
+    build:
+      context: socket
+      target: production
+      dockerfile: Dockerfile
+    ports:
+      - "8900:8900"
+    networks:
+      - shared-network
+    depends_on:
+      - client
+
+networks:
+  shared-network:
