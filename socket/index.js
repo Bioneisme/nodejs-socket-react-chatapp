@@ -27,22 +27,34 @@ const removeUser = (socketId) => {
 
 io.on("connection", (socket => {
     socket.on("addUser", userId => {
-        addUser(userId, socket.id)
+        try {
+            addUser(userId, socket.id)
+        } catch (e) {
+            console.log('connect: ' + e)
+        }
     })
 
     socket.on("sendMessage", ({senderId, receiverId, text}) => {
-            const user = users[receiverId]
             try {
-                io.to(user).emit("getMessage", {
-                    senderId, text
-                })
+                const user = users[receiverId]
+                try {
+                    io.to(user).emit("getMessage", {
+                        senderId, text
+                    })
+                } catch (e) {
+                    console.log(e)
+                }
             } catch (e) {
-                console.log(e)
+                console.log('sendMessage: ' + e)
             }
         }
     )
 
     socket.on("disconnect", () => {
-        removeUser(socket.id)
+        try {
+            removeUser(socket.id)
+        } catch (e) {
+            console.log('disconnect: ' + e)
+        }
     })
 }))
