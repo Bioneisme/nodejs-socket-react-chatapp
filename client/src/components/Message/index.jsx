@@ -1,10 +1,10 @@
 import React from "react";
-import moment from "moment"
+import moment from "moment-timezone"
 
 import "./message.css";
 
 export default function Message({ message, own, image, ownImage }) {
-    const timeAgo = moment(message.createdAt).fromNow()
+    const timeAgo = moment(moment(message.createdAt).tz('UTC')).fromNow()
 
     return (
         <div className={own ? "message own" : "message"}>
