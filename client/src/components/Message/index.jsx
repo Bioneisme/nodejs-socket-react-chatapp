@@ -1,6 +1,7 @@
 import React from "react";
-import "./message.css";
 import moment from "moment"
+
+import "./message.css";
 
 export default function Message({ message, own, image, ownImage }) {
     const timeAgo = moment(message.createdAt).fromNow()
