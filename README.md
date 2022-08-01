@@ -5,7 +5,7 @@ Application for realtime chatting with registered users built with NodeJS, Expre
 ## Features:
 * Local Authentication using Email and Password
 * Account Management (profile details, change avatar/personal data)
-* Realtime chatting with users
+* Realtime chatting with users using Socket.IO
 * Sequelize & PostgreSQL database
 * Storing images in Cloudinary
 * Storing user sessions in Redis
