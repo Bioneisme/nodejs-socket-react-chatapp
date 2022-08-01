@@ -6,6 +6,10 @@ Application for realtime chatting with registered users built with NodeJS, Expre
 * Local Authentication using Email and Password
 * Account Management (profile details, change avatar/personal data)
 * Realtime chatting with users
+* Sequelize & PostgreSQL database
+* Storing images in Cloudinary
+* Storing user sessions in Redis
+* Using Redux (toolkit) for user interaction
 
 ## Screenshots:
 #### Log In / Sign Up:
